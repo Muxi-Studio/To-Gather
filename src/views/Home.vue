@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <Login />
+    <!-- <Login /> -->
+    <Activities />
 
     <div class="tab">
       <router-link to="/" class="tab-item">
@@ -17,12 +18,14 @@
 
 <script>
 // @ is an alias to /src
-import Login from '@/components/login.vue'
+// import Login from '@/components/login.vue'
+import Activities from '@/components/activities.vue'
 
 export default {
   name: 'home',
   components: {
-    Login
+    // Login,
+    Activities
   }
 }
 </script>

@@ -11,7 +11,7 @@ img{
   margin-top: 50%;
 }
 .landing{
-  background: center / contain no-repeat url("../assets/bg.png");
+  background: center / cover no-repeat url("../assets/bg.png");
   height: 100vh;
   text-align: center;
 }
