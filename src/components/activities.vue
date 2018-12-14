@@ -4,12 +4,16 @@
       <div class="act-time">{{activity.datetime}}</div>
       <div class="act-event">{{activity.event}}</div>
     </div>
+    <div class="act-none" v-if="!rowsNum">没有更多内容</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Activities',
+  props: {
+    page: Number,
+  },
   data(){
     return{
       activityList: [
@@ -52,26 +56,49 @@ export default {
       hasNext: false,
       pageMax: 1,
       pageNum: 1,
-      rowsNum: 2
+      rowsNum: 0,
+      stuNum: 2017213654,
+      token: "eyJpYXQiOjE1NDQ3MDc4NTgsImFsZyI6IkhTMjU2IiwiZXhwIjoxNjQ0NzA3ODU3fQ.eyJzdGRfbnVtIjoiMjAxNzIxMzY1NCIsImNvbmZpcm0iOjJ9.FY_DlF8y0IqP0igE9n6NvBSTzwB-YA2spx8R1cqZBsw"
     }
   },
   mounted() {
-    fetch(`/api/activity/pickable/list/?page=${this.pageNum}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type":"application/json"
-      }
-    }).then(res => {
-      if (res.ok){
-        return res.json()
-      }
-    }).then(res => {
-      this.activityList = res.activityList;
-      this.hasNext = res.hasNext;
-      this.pageMax = res.pageMax;
-      this.pageNum = res.pageNum;
-      this.rowsNum = res.rowsNum;
-    })
+    if(this.page == 0){ //所有可以pick
+      fetch(`/api/v1.0/activity/pickable/list/?page=${this.pageNum}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type":"application/json"
+        }
+      }).then(res => {
+        if (res.ok){
+          return res.json()
+        }
+      }).then(res => {
+        this.activityList = res.activityList;
+        this.hasNext = res.hasNext;
+        this.pageMax = res.pageMax;
+        this.pageNum = res.pageNum;
+        this.rowsNum = res.rowsNum;
+      })
+    } else if (this.page == 1){//我发起的activity
+      fetch(`/api/v1.0/user/${this.stuNum}/post-activities/list/?page=${this.pageNum}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type":"application/json",
+          token: this.token
+        }
+      }).then(res => {
+        if (res.ok){
+          return res.json()
+        }
+      }).then(res => {
+        this.activityList = res.activityList;
+        this.hasNext = res.hasNext;
+        this.pageMax = res.pageMax;
+        this.pageNum = res.pageNum;
+        this.rowsNum = res.rowsNum;
+      })
+    }
+
   },
 }
 </script>
@@ -80,7 +107,7 @@ export default {
 .activities{
   padding-top: 18px ;
   height: calc(100vh - 56px);
-  overflow: scroll;
+  overflow-y: scroll;
   box-sizing: border-box;
 }
 .act-item{
@@ -102,5 +129,10 @@ export default {
   line-height:22px;
   color: #4A4A4A;
   margin-top: 3px;
+}
+.act-none{
+  text-align: center;
+  color: #FFFFFFcc;
+  font-size: 20px;
 }
 </style>
