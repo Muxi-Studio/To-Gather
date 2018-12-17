@@ -1,22 +1,30 @@
 <template>
-  <div class="login">
-    <div class="login-container">
-      <div class="login-title">身份信息核验</div>
-      <div class="inp-container" v-bind:class="{focus: focusName}">
-        <input class="login-inp" placeholder="Name_姓名" @focus="handleFocus(0)" @blur="handleNotFocus(0)"/>
-        <img class="login-icon" v-bind:src="[focusName ? nameIconfocus: nameIcon]" />
+  <div class="login-mask">
+    <div class="login-wrapper">
+      <div class="login-container">
+        <div class="login-title">身份信息核验</div>
+        <div class="inp-container" v-bind:class="{focus: focusName}">
+          <input class="login-inp" placeholder="Name_姓名" @focus="handleFocus(0)" @blur="handleNotFocus(0)" v-model="username"/>
+          <img class="login-icon" v-bind:src="[focusName ? nameIconfocus: nameIcon]" />
+        </div>
+        <div class="inp-container" v-bind:class="{focus: focusId}" >
+          <input class="login-inp" placeholder="ID_学号" @focus="handleFocus(1)" @blur="handleNotFocus(1)" v-model="stunum"/>
+          <img class="login-icon" v-bind:src="[focusId ? idIconfocus: idIcon]" />
+        </div>
+        <div class="inp-container" v-bind:class="{focus: focusPw}" >
+          <input type="password" class="login-inp" placeholder="Password_密码" @focus="handleFocus(2)" @blur="handleNotFocus(2)" v-model="password"/>
+          <img class="login-icon" v-bind:src="[focusPw ? idIconfocus: idIcon]" />
+        </div>
+        <div class="login-tip">*tips 信息仅用于Check-in，不会以任何方式泄露至宇宙中</div>
+        <div class="login-but" v-on:click="login()" >Done</div>
+        <div class="input-none" v-if="none">任何一项不能为空！</div>
       </div>
-      <div class="inp-container" v-bind:class="{focus: focusId}" >
-        <input class="login-inp" placeholder="ID_学号" @focus="handleFocus(1)" @blur="handleNotFocus(1)" />
-        <img class="login-icon" v-bind:src="[focusId ? idIconfocus: idIcon]" />
-      </div>
-      <div class="login-tip">*tips 信息仅用于Check-in，不会以任何方式泄露至宇宙中</div>
-      <div class="login-but">Done</div>
     </div>
   </div>
 </template>
 
 <script>
+import cookie from "../cookie";
 export default {
   name: 'Login',
   data(){
@@ -27,6 +35,11 @@ export default {
       idIconfocus: require('../assets/icon_login_num@3x.png'),
       focusName: false,
       focusId:false,
+      focusPw:false,
+      username: "",
+      stunum: "",
+      password: "",
+      none: false,
     }
   },
   props: {
@@ -35,19 +48,34 @@ export default {
   },
   methods:{
     handleFocus(value){
-      if(value){
+      if(value == 2){
+        this.focusPw = true;
+      } else if (value == 1){
         this.focusId = true;
       } else {
         this.focusName = true;
       }
     },
     handleNotFocus(value){
-      if(value){
+      if(value == 2){
+        this.focusPw = false;
+      } else if (value == 1){
         this.focusId = false;
       } else {
         this.focusName = false;
       }
     },
+    login(){
+      if(this.username != '' && this.stunum != '' && this.password != ''){
+        cookie.setCookie('username', this.username);
+        cookie.setCookie('stunum', this.stunum);
+        cookie.setCookie('password', this.password);
+        this.$router.push('/landing');
+      } else {
+        this.none = true;
+      }
+
+    }
   }
 
 }
@@ -55,9 +83,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.login{
-  color: #878787;
-  height: calc(100vh - 56px)
+.login-mask{
+  background-color: rgba(0, 0, 0, .5);
+  position: fixed;
+  width: 100%;
+  height:100%;
+  top:0;
+  left: 0;
+  z-index: 99;
+  display: table;
+}
+.login-wrapper{
+  display: table-cell;
+  vertical-align: middle;
 }
 .login-container{
   width:328px;
@@ -65,12 +103,9 @@ export default {
   background: #FFFFFF;
   margin: 0 auto;
   border:1px solid rgba(0,0,0,0.12);
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 16px;
-  box-sizing: border-box;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  box-sizing: border-box;  
 }
 .login-title{
   font-size:18px;
@@ -110,5 +145,10 @@ export default {
   text-align: center;
   margin: 0 auto;
   color: #9013FE;
+}
+.input-none{
+  font-size:14px;
+  text-align: center;
+  color: #878787;
 }
 </style>

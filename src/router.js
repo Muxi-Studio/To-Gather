@@ -4,14 +4,14 @@ import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/landing',
@@ -31,3 +31,10 @@ export default new Router({
     }
   ]
 })
+// router.beforeEach((to, from, next) => {
+//   // do something
+//   console.log(to.path); // 打印 /helloworld
+//   console.log(from.path); // 打印 /
+//   next();
+// });
+export default router

@@ -1,10 +1,48 @@
 <template>
-  <div class="landing">
-    <img src="../assets/icon_loading_64px@6x.png" />
-    <div class="landing-text">正在尝试登陆</div>
-    <div class="landing-text">99%</div>
+  <div>
+    <div class="landing" >
+      <img src="../assets/icon_loading_64px@6x.png" />
+      <div class="landing-text">正在尝试登陆</div>
+      <div class="landing-text">99%</div>
+    </div>
   </div>
 </template>
+<script>
+import cookie from "../cookie";
+
+export default {
+  name: 'landing',
+  data(){
+    return{
+      landing: false
+    }
+  },
+  mounted(){
+    var data = {
+      "std_num": cookie.getCookie('stunum'),
+      "password": cookie.getCookie('password'),
+      "username": cookie.getCookie('username')
+    }
+    fetch(`/api/v1.0/auth/login/`, {
+        method: 'POST',
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify(data),
+      }).then(res => {
+        if (res.ok){
+          return res.json()
+        }
+      }).then(res => {
+        localStorage.setItem('token', res.token);
+        localStorage.login = true;
+        console.log('?');
+        this.$router.push('/')
+      })
+  }
+}
+</script>
+
 <style scoped>
 img{
   width: 64px;

@@ -1,6 +1,7 @@
 <template>
   <div class="activities">
-    <div class="act-item" v-for = "activity in activityList" :key="activity.id">
+    <login v-if="landing"/>
+    <div class="act-item" v-on:click="checklogin(activity.activityID)" v-for = "activity in activityList" :key="activity.id">
       <div class="act-time">{{activity.datetime}}</div>
       <div class="act-event">{{activity.event}}</div>
     </div>
@@ -9,10 +10,15 @@
 </template>
 
 <script>
+import Login from '@/components/login.vue'
+
 export default {
   name: 'Activities',
-  props: {
-    page: Number,
+  // props: {
+  //   page: Number,
+  // },
+  components: {
+    Login
   },
   data(){
     return{
@@ -57,8 +63,9 @@ export default {
       pageMax: 1,
       pageNum: 1,
       rowsNum: 0,
-      stuNum: 2017213654,
-      token: "eyJpYXQiOjE1NDQ3MDc4NTgsImFsZyI6IkhTMjU2IiwiZXhwIjoxNjQ0NzA3ODU3fQ.eyJzdGRfbnVtIjoiMjAxNzIxMzY1NCIsImNvbmZpcm0iOjJ9.FY_DlF8y0IqP0igE9n6NvBSTzwB-YA2spx8R1cqZBsw"
+      stuNum: localStorage.stuNum,
+      token: localStorage.token,
+      landing: false
     }
   },
   mounted() {
@@ -80,25 +87,41 @@ export default {
         this.rowsNum = res.rowsNum;
       })
     } else if (this.page == 1){//我发起的activity
-      fetch(`/api/v1.0/user/${this.stuNum}/post-activities/list/?page=${this.pageNum}`, {
-        method: 'GET',
-        headers: {
-          "Content-Type":"application/json",
-          token: this.token
-        }
-      }).then(res => {
-        if (res.ok){
-          return res.json()
-        }
-      }).then(res => {
-        this.activityList = res.activityList;
-        this.hasNext = res.hasNext;
-        this.pageMax = res.pageMax;
-        this.pageNum = res.pageNum;
-        this.rowsNum = res.rowsNum;
-      })
+      if(!localStorage.login ||localStorage.login == "false"){
+        this.landing = true;
+      }else{
+        fetch(`/api/v1.0/user/${this.stuNum}/post-activities/list/?page=${this.pageNum}`, {
+          method: 'GET',
+          headers: {
+            "Content-Type":"application/json",
+            token: this.token
+          }
+        }).then(res => {
+          if (res.ok){
+            return res.json()
+          }
+        }).then(res => {
+          this.activityList = res.activityList;
+          this.hasNext = res.hasNext;
+          this.pageMax = res.pageMax;
+          this.pageNum = res.pageNum;
+          this.rowsNum = res.rowsNum;
+        })
+      }
     }
-
+  },
+  updated(){
+    if(localStorage.login == 'true'){
+      this.landing = false;
+    }
+  },
+  methods:{
+    checklogin(id){
+      console.log(id);
+      if(!localStorage.login ||localStorage.login == "false"){
+        this.landing = true;
+      }
+    }
   },
 }
 </script>
