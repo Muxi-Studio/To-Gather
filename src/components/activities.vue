@@ -14,9 +14,9 @@ import Login from '@/components/login.vue'
 
 export default {
   name: 'Activities',
-  // props: {
-  //   page: Number,
-  // },
+  props: {
+    page: Number,
+  },
   components: {
     Login
   },
