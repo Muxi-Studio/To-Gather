@@ -70,7 +70,13 @@ export default {
         cookie.setCookie('username', this.username);
         cookie.setCookie('stunum', this.stunum);
         cookie.setCookie('password', this.password);
-        this.$router.push('/landing');
+        localStorage.landing = false;
+        this.$router.push({
+          name: 'landing',
+          params:{
+            path : this.$route.path
+          }
+        });
       } else {
         this.none = true;
       }

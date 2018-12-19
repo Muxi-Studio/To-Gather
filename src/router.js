@@ -33,8 +33,9 @@ const router = new Router({
 })
 // router.beforeEach((to, from, next) => {
 //   // do something
-//   console.log(to.path); // 打印 /helloworld
-//   console.log(from.path); // 打印 /
+//   console.log("to.path",to.path); 
+//   console.log("form.path",from.path);
+
 //   next();
 // });
 export default router

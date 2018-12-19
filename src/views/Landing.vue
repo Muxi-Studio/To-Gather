@@ -14,7 +14,6 @@ export default {
   name: 'landing',
   data(){
     return{
-      landing: false
     }
   },
   mounted(){
@@ -36,8 +35,8 @@ export default {
       }).then(res => {
         localStorage.setItem('token', res.token);
         localStorage.login = true;
-        console.log('?');
-        this.$router.push('/')
+        const path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+        this.$router.push(path);
       })
   }
 }

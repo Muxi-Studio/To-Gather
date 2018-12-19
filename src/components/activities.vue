@@ -11,11 +11,12 @@
 
 <script>
 import Login from '@/components/login.vue'
+import cookie from "../cookie";
 
 export default {
   name: 'Activities',
   props: {
-    page: Number,
+    page: String,
   },
   components: {
     Login
@@ -63,13 +64,29 @@ export default {
       pageMax: 1,
       pageNum: 1,
       rowsNum: 0,
-      stuNum: localStorage.stuNum,
       token: localStorage.token,
-      landing: false
+      landing: localStorage.landing == 'true',
     }
   },
   mounted() {
     if(this.page == 0){ //所有可以pick
+      this.fetchPickable();
+    } else if (this.page == 1){//我发起的activity
+      if(!localStorage.login ||localStorage.login == "false"){
+        this.landing = true;
+      }else{
+        this.fetchPost();
+      }
+    }
+  },
+  methods:{
+    checklogin(id){
+      console.log(id);
+      if(!localStorage.login ||localStorage.login == "false"){
+        this.landing = true;
+      }
+    },
+    fetchPickable(){
       fetch(`/api/v1.0/activity/pickable/list/?page=${this.pageNum}`, {
         method: 'GET',
         headers: {
@@ -86,41 +103,44 @@ export default {
         this.pageNum = res.pageNum;
         this.rowsNum = res.rowsNum;
       })
-    } else if (this.page == 1){//我发起的activity
-      if(!localStorage.login ||localStorage.login == "false"){
-        this.landing = true;
-      }else{
-        fetch(`/api/v1.0/user/${this.stuNum}/post-activities/list/?page=${this.pageNum}`, {
-          method: 'GET',
-          headers: {
-            "Content-Type":"application/json",
-            token: this.token
-          }
-        }).then(res => {
-          if (res.ok){
-            return res.json()
-          }
-        }).then(res => {
-          this.activityList = res.activityList;
-          this.hasNext = res.hasNext;
-          this.pageMax = res.pageMax;
-          this.pageNum = res.pageNum;
-          this.rowsNum = res.rowsNum;
-        })
-      }
+    },
+    fetchPost(){
+      const stuNum = cookie.getCookie('stunum');
+      fetch(`/api/v1.0/user/${stuNum}/post-activities/list/?page=${this.pageNum}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type":"application/json",
+          token: this.token
+        }
+      }).then(res => {
+        if (res.ok){
+          return res.json()
+        }
+      }).then(res => {
+        this.activityList = res.activityList;
+        this.hasNext = res.hasNext;
+        this.pageMax = res.pageMax;
+        this.pageNum = res.pageNum;
+        this.rowsNum = res.rowsNum;
+      })
     }
   },
-  updated(){
-    if(localStorage.login == 'true'){
-      this.landing = false;
-    }
-  },
-  methods:{
-    checklogin(id){
-      console.log(id);
-      if(!localStorage.login ||localStorage.login == "false"){
-        this.landing = true;
+  watch: {
+    '$route': function(){
+      this.landing = localStorage.landing == 'true'; //更新landing状态
+      //重新获取数据
+      if(this.page == 0){ //所有可以pick
+        this.fetchPickable();
+      } else if (this.page == 1){//我发起的activity
+        if(!localStorage.login ||localStorage.login == "false"){
+          this.landing = true;
+        }else{
+          this.fetchPost();
+        }
       }
+    },
+    'landing': function(){
+      localStorage.landing = this.landing;
     }
   },
 }
