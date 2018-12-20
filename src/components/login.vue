@@ -130,7 +130,7 @@ export default {
   border-bottom: 2px solid #878787;
 }
 .focus{
-  border-bottom: 2px solid #9013FE;
+  border-bottom: 2px solid #6200EE;
 }
 .login-icon{
   width: 24px;
@@ -150,7 +150,7 @@ export default {
   line-height: 36px;
   text-align: center;
   margin: 0 auto;
-  color: #9013FE;
+  color: #6200EE;
 }
 .input-none{
   font-size:14px;
