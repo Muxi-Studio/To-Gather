@@ -49,6 +49,7 @@
         </div>
     </div>
     <div class="reply" v-if="OK">
+        <img src='../assets/close.png' class="close" @click='close'/>
         <div class="wait">等待对方验证</div>
         <div class="replyOther">
             <input v-model="answer" class="inputReply" placeholder="Reply_回复对方" />
@@ -107,6 +108,9 @@
                 else{
                     this.OK = true;
                 }
+            },
+            close(){
+                this.OK = false;
             },
             changeclass(OK){
                 return OK ? 'detail dark': 'detail'
@@ -332,6 +336,11 @@
     top: 50%;
     transform: translateY(-50%);
     color: #6200EE;
+}
+.close{
+    width: 18px;
+    height: 20px;
+    margin-left: 90%;
 }
 </style>
 
