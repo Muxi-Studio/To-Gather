@@ -7,7 +7,7 @@
         <img class="tab-icon" src="../assets/icon_tab_1_32px@3x.png" />
         <div class="tab-text">Universe</div>
       </router-link>
-      <router-link to="/landing" class="tab-item">
+      <router-link to="/landing " class="tab-item">
         <img class="tab-icon" src="../assets/icon_tab_2_32px@3x.png" />
         <div class="tab-text">U&Me</div>
       </router-link>
