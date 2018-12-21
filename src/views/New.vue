@@ -6,9 +6,8 @@
                 <el-date-picker 
                     v-model="date" 
                     type="date" 
-                    class="date"
                     placeholder="Date_日期" 
-                    style="width: 100%;" 
+                    style="width:94%;" 
                     :picker-options="pickerOptions1">
                 </el-date-picker>
             </div>
@@ -74,7 +73,7 @@ export default {
                 tel: this.tel,
                 question: this.question
             }
-            fetch("/api/activity/post/",{
+            fetch(`/api/v1.0/activity/post/`,{
                 method: "POST",
                 headers:{
                     "token": this.token,
@@ -100,6 +99,20 @@ export default {
     height: 100px;
     background-color: white;
     border: 2px; 
+}
+.new-date /deep/ .el-input__inner{
+        width:96%;
+        margin-left: 5px;
+        height: 40px;
+        outline:none;
+        border: none;
+        border-radius:0;
+        border-bottom: 2px solid #878787;
+        color: #878787;
+}
+.new-date /deep/ .el-input__inner:focus{
+    border-bottom: 2px solid #6200EE;
+
 }
 .back{
     width: 34px;

@@ -1,31 +1,30 @@
 <template>
 <div class="message">
     <div class="wrongPage" v-if="success">
-        <p class="wrongMessage">{{wrongMessage}}</p>
+            {{WrongMessage}}
     </div>
     <div class="datilCard" v-if="!success">
-        <img class="last" @click='last' src="../assets/back.png" />
+        <img class="prev" @click='last' src="../assets/back.png" />
         <img class="next" @click='next' src="../assets/next.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
-            <span>{{datetime}}</span>
-            <span>{{time}}</span>
+            <span class="left">{{datetime}}</span>
         </div>
         <div class="actionLocation aciton-detail">
             <span>Location/</span>
-            <span>{{location}}</span>
+            <span class="left">{{location}}</span>
         </div>
         <div class="event aciton-detail">
             <span>Event/</span>
-            <span>{{event}}</span>
+            <span class="left">{{event}}</span>
         </div>
         <div class="message-adds">
             <span>Adds/</span>
-            <span>{{question}}</span>
+            <span class="left">{{question}}</span>
         </div>
         <div class="message-reply">
             <span>Reply/</span>
-            <span>{{answer}}</span>
+            <span class="left">{{answer}}</span>
         </div>
         <button class="no button" >NO:(</button>
         <button class="yes button" @click='pass'>OK:)</button>
@@ -45,57 +44,44 @@
                 unum: "",
                 aid: 0,
                 position:0,
-                MessageData:{
-                    datetime: "",
-                    location: "",
-                    event: "",
-                    question: "",
-                    answer: "",
-                    time: "",
-                    readed: false
-                },
+                datetime: "",
+                location: "",
+                event: "",
+                question: "",
+                answer: "",
+                time: "",
+                readed: false,
                 messageCount: 0,
                 messageList: []
             }
         },
         mounted() {
             this.token = Cookie.getCookie('token'),
-            this.unum = Cookie.getCookie('unum'),
-            this.aid = this.$route.params,
-            this.getReplyList()
+            this.unum = Cookie.getCookie('stunum'),
+            this.aid = this.$route.params.aid,
+            this.getReplyList(this.aid)
         },
         methods:{
-            last(){
-                if(this.position === 0){
-                    this.$router.push({path:'/personal'})
-                }
-                else{
-                    this.position = this.position - 1;
-                    this.getReplyDetail(this.messageList[this.position].mid);
-                }
+            prev(){
+                this.$router.push({path:'/personal'})
             },
             next(){
-                if(this.position === this.messageCount -1);
+                if(this.position === this.position + 1);
                 else{
                     this.position = this.position + 1;
-                    this.etReplyDetail(this.messageList[this.position].mid);
+                    this.getReplyDetail(this.messageList[this.position]);
                 }
             },
-            getReplyList(){
-                fetch("api/user/"+ this.unum +"/activity/" + this.aid +"/message/list/",{
+            getReplyList(aid){
+                fetch(`/api/v1.0/user/${this.unum}/activity/${aid}/message/list/`,{
                     method:"GET",
-                    path:{
-                        "type": "all"
-                    },
                     headers:{
-                        "token": this.token,
+                        token: this.token,
                         "Content-Type": "application/json"
                     }
                 }).then(res => {
                     if (res.status === 200) {
-                        this.messageCount = res.messageCount,
-                        this.messageList = res.messageList,
-                        this.getReplyDetail(this.messageList[this.position].mid)
+                        return res.json();
                     }
                     else if(res.status === 401){
                         this.$router.push({path:'/'})
@@ -108,18 +94,23 @@
                         this.success = true,
                         this.WrongMessage = "请检查你自己的消息"
                     }
+                }).then(res =>{
+                    this.messageCount = res.messageCount,
+                    this.messageList = res.messageList,
+                    console.log(this.messageList)
+                    this.getReplyDetail(this.messageList[this.position])
                 })
             },
             getReplyDetail(mid){
-                fetch("api/user/" + this.unum + "/message/" + mid +"/",{
+                fetch(`/api/v1.0/user/${this.unum}/message/${mid}/`,{
                     method:"GET",
                     headers:{
-                        "token": this.token,
+                        token: this.token,
                         "Content-Type": "application/json"
                     }
                 }).then(res=>{
                     if (res.status === 200) {
-                        this.MessageData = res
+                        return res.json();
                     }
                     else if(res.status === 401){
                         this.$router.push({path:'/'})
@@ -132,19 +123,30 @@
                         this.success = true,
                         this.WrongMessage = "请检查你自己的消息"
                     }
+                }).then(res => {
+                    this.datetime = res.datetime,
+                    this.time = res.time,
+                    this.location = res.location,
+                    this.event = res.event,
+                    this.qq = res.qq,
+                    this.tel = res.tel,
+                    this.question = res.question,
+                    this.answer = res.answer,
+                    this.readed = res.readed
                 })
             },
             pass(){
-                fetch("api/activity/" + this.aid + "/",{
+                let message = {
+                    "pickerID": this.messageList[this.position],
+                    "atti": true
+                }
+                fetch(`/api/v1.0/activity/${this.aid}/`,{
                     method:"PUT",
                     headers:{
-                        "token": this.token,
+                        token: this.token,
                         "Content-Type": "application/json"
                     },
-                    body:{
-                        "pickerID": this.messageList[this.position].mid,//我不确定，这个OK是用哪个api
-                        "atti": true
-                    }
+                    body: JSON.stringify(message)
                 }).then(res=>{
                     if(res.status === 200){
                         this.$router.push({path:'/personal'})
@@ -238,11 +240,13 @@
     margin: 0 auto;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
-    padding: 16px;
+    padding: 120px 0;
+    text-align: center;
     box-sizing: border-box;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    color: #6200EE;
 }
 </style>
 

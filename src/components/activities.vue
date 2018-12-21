@@ -6,6 +6,7 @@
       <div class="act-event">{{activity.event}}</div>
     </div>
     <div class="act-none" v-if="!rowsNum">没有更多内容</div>
+    <div class="add-act" v-on:click="add" >+</div>
   </div>
 </template>
 
@@ -23,56 +24,21 @@ export default {
   },
   data(){
     return{
-      activityList: [
-        // {
-        //     "activityID": 1,
-        //     "datetime": "2019-01-01 20:00-21:00",
-        //     "event": "学习"
-        // },
-        // {
-        //     "activityID": 2,
-        //     "datetime": "2020-12-02 20:00-21:00",
-        //     "event": "学习"
-        // },
-        // {
-        //     "activityID": 3,
-        //     "datetime": "2020-02-28 20:00-21:00",
-        //     "event": "一起看场电影吧一起看场电影吧一起看场电影吧一起看场电影吧一起看最多36字"
-        // },
-        // {
-        //     "activityID": 4,
-        //     "datetime": "2025-12-12 14:00-23:00",
-        //     "event": "最多36字最多36字"
-        // },
-        // {
-        //     "activityID": 5,
-        //     "datetime": "2025-12-25 14:00-23:00",
-        //     "event": "啦啦啦啦啦绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿"
-        // },
-        // {
-        //     "activityID": 6,
-        //     "datetime": "2021-04-26 00:00-23:00",
-        //     "event": "真真真真真真"
-        // },
-        // {
-        //     "activityID": 7,
-        //     "datetime": "2021-04-26 00:00-23:00",
-        //     "event": "xixixixi"
-        // }
-      ],
+      activityList: [],
       hasNext: false,
       pageMax: 1,
       pageNum: 1,
       rowsNum: 0,
-      token: localStorage.token,
-      landing: localStorage.landing == 'true',
+      token: cookie.getCookie('token'),
+      landing: cookie.getCookie('landing') == 'true',
+      login: cookie.getCookie('login') == 'true'
     }
   },
   mounted() {
     if(this.page == 0){ //所有可以pick
       this.fetchPickable();
     } else if (this.page == 1){//我发起的activity
-      if(!localStorage.login ||localStorage.login == "false"){
+      if(!this.login){
         this.landing = true;
       }else{
         this.fetchPost();
@@ -81,9 +47,15 @@ export default {
   },
   methods:{
     checklogin(id){
-      console.log(id);
-      if(!localStorage.login ||localStorage.login == "false"){
+      if(!this.login){
         this.landing = true;
+      } else {
+        this.$router.push({
+          name: 'actionDetail',
+          params:{
+            aid: id
+          }
+        });
       }
     },
     fetchPickable(){
@@ -123,16 +95,19 @@ export default {
         this.pageNum = res.pageNum;
         this.rowsNum = res.rowsNum;
       })
+    },
+    add(){
+      this.$router.push('/new')
     }
   },
   watch: {
     '$route': function(){
-      this.landing = localStorage.landing == 'true'; //更新landing状态
+      this.landing = cookie.getCookie('landing') == 'true'; //更新landing状态
       //重新获取数据
       if(this.page == 0){ //所有可以pick
         this.fetchPickable();
       } else if (this.page == 1){//我发起的activity
-        if(!localStorage.login ||localStorage.login == "false"){
+        if(!this.login){
           this.landing = true;
         }else{
           this.fetchPost();
@@ -140,7 +115,7 @@ export default {
       }
     },
     'landing': function(){
-      localStorage.landing = this.landing;
+      cookie.setCookie('landing',this.landing);
     }
   },
 }
@@ -177,5 +152,19 @@ export default {
   text-align: center;
   color: #FFFFFFcc;
   font-size: 20px;
+}
+.add-act{
+  width:56px;
+  height:56px;
+  border-radius: 50%;
+  background: #6200EE;
+  color: #FFFFFF;
+  position: absolute;
+  right: 24px;
+  bottom: 70px;
+  font-size:36px;
+  line-height: 56px;
+  text-align: center;
+
 }
 </style>

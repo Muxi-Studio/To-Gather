@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import actionDetail from './views/Detail.vue'
 import New from './views/New.vue'
 import Reply from './views/Message.vue'
+import Pass from './views/Pass.vue'
 
 Vue.use(Router)
 
@@ -19,9 +20,6 @@ const router = new Router({
     {
       path: '/landing',
       name: 'landing',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/Landing.vue')
     },
     {
@@ -40,11 +38,13 @@ const router = new Router({
       component: Reply,
     },
     {
+      path: '/pass/:aid',
+      name: 'passDetail',
+      component: Pass
+    },
+    {
       path: '/personal',
       name: 'personal',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/Personal.vue')
     }
   ]

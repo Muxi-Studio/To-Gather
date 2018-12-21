@@ -1,10 +1,18 @@
 <template>
   <div id="app">
-    <keep-alive>
       <router-view/>
-    </keep-alive>
+    <Tab />
   </div>
 </template>
+<script>
+import Tab from './components/tab.vue'
+export default {
+  components: {
+    Tab
+  },
+}
+</script>
+
 
 <style>
 body{
@@ -18,6 +26,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
   color: black;
   background-color: #081837;
+  height: 100vh;
   width: 100%;
 }
 #nav {
