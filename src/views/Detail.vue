@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="detail">
     <div :class="changeclass(OK)">
         <div class="wrongPage" v-if="success">
             <p class="wrongMessage">{{wrongMessage}}</p>
@@ -91,11 +91,12 @@
         },
         mounted() {
             if(Cookie.getCookie('token')){
-                this.token = Cookie.getCookie('token')
+                this.token = Cookie.getCookie('token');
             }else{
                 this.$router.push({path:'/'})
             }
-            this.aid = this.$route.params
+            this.aid = this.$route.params.aid;
+            this.getDetail();
         },
         methods:{
             prev(){
@@ -113,7 +114,7 @@
                 return OK ? 'detail dark': 'detail'
             },
             sendReply(){
-                fetch("/api/activity/" + this.aid + "/",{
+                fetch("/api/v1.0/activity/" + this.aid + "/",{
                     method:'POST',
                     headers:{
                         "token": this.token,
@@ -148,10 +149,10 @@
                 })
             },
             getDetail(){
-                fetch("/api/activity/" + this.aid + "/", {
+                fetch("/api/v1.0/activity/" + this.aid + "/", {
                 method: 'GET',
                 headers: {
-                    "token": this.token,
+                    token: this.token,
                     "Content-Type": "application/json"
                 }
                 }).then(res => {
@@ -177,7 +178,7 @@
     }
 </script>
 
-<style>
+<style scoped >
 .detailCard{
     width:87%;
     padding: 16px 7px;

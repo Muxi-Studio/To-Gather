@@ -74,7 +74,7 @@ export default {
                 tel: this.tel,
                 question: this.question
             }
-            fetch("/api/activity/post/",{
+            fetch("/api/v1.0/activity/post/",{
                 method: "POST",
                 headers:{
                     "token": this.token,
@@ -87,7 +87,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .new{
     width:87%;
     padding: 16px 7px;

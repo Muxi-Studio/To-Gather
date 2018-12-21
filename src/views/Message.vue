@@ -155,7 +155,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 .datilCard{
     width:87%;
     padding: 16px 7px;

@@ -33,8 +33,11 @@ export default {
           return res.json()
         }
       }).then(res => {
-        localStorage.setItem('token', res.token);
-        localStorage.login = true;
+        // localStorage.setItem('token', res.token);
+        // localStorage.login = true;
+        cookie.setCookie('token', res.token);
+        cookie.setCookie('login', true);
+        cookie.setCookie('landing', false);
         const path = this.$route.params.path === '/' ? '/': this.$route.params.path;
         this.$router.push(path);
       })
