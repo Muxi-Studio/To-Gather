@@ -50,6 +50,7 @@
                 question: "",
                 answer: "",
                 time: "",
+                picker_id: "",
                 readed: false,
                 messageCount: 0,
                 messageList: []
@@ -132,12 +133,13 @@
                     this.tel = res.tel,
                     this.question = res.question,
                     this.answer = res.answer,
+                    this.picker_id = res.picker_id,
                     this.readed = res.readed
                 })
             },
             pass(){
                 let message = {
-                    "pickerID": this.messageList[this.position],
+                    "pickerID": this.picker_id,
                     "atti": true
                 }
                 fetch(`/api/v1.0/activity/${this.aid}/`,{

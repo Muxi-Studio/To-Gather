@@ -6,18 +6,21 @@
                 <el-date-picker 
                     v-model="date" 
                     type="date" 
+                    @change="formatTime" 
+                    value-format="yyyy-MM-dd"                    
                     placeholder="Date_日期" 
                     style="width:94%;" 
                     :picker-options="pickerOptions1">
                 </el-date-picker>
             </div>
-            <input placeholder="Time_时间" v-modal="time" class="new-time font margin" />
+            <input placeholder="Time_时间" v-model="time" class="new-time font margin" />
             <input placeholder="Event_事件" v-model="event" class="new-event font margin" />
             <div class="newTips">*tips 以下信息仅在你二次确认之后，才将被对方接收</div>
             <input placeholder="Place_碰头地" v-model="location" class="new-place font margin" />
             <input placeholder="QQ_神奇编码" v-model="qq" class="new-qq font margin" />
             <input placeholder="Tel_电话" v-model="tel" class="new-tel font margin" />
             <input placeholder="Adds_还想说点啥" v-model="question" class="new-adds font" />
+            <div class="input-none" v-if="none">*tips 任何一项不能为空！</div>
         </div>
         <div>
             <button class="no button" @click='prev'>NO:(</button>
@@ -38,9 +41,10 @@ export default {
                 }
             },
             date: "",
-            year: 0,
-            month: 0,
-            day: 0,
+            none: false,
+            year: "",
+            month: "",
+            day: "",
             time: "",
             location: "",
             event:"",
@@ -57,30 +61,35 @@ export default {
             this.$router.go(-1)
         },
         alter(){
-            var strs = new Array();
-            strs = this.date.split("-");
-            this.year = parseInt(strs[0]);
-            this.month = parseInt(strs[1]);
-            this.day = parseInt(strs[2]);
-            let message = {
-                year: this.year,
-                month: this.month,
-                day: this.day,
-                time: this.time,
-                location: this.location,
-                event: this.event,
-                qq: this.qq,
-                tel: this.tel,
-                question: this.question
+            if(this.date != '' && this.time != '' && this.location != '' && this.event != '' && this.qq != '' && this.tel !='' && this.question !=''){
+                this.year = this.date.split("-")[0];
+                this.month = this.date.split("-")[1];
+                this.day = this.date.split("-")[2];
+                var message = {
+                    "year": this.year,
+                    "month": this.month,
+                    "day": this.day,
+                    "time": this.time,
+                    "location": this.location,
+                    "event": this.event,
+                    "qq": this.qq,
+                    "tel": this.tel,
+                    "question": this.question
+                }
+                fetch(`/api/v1.0/activity/post/`,{
+                    method: "POST",
+                    headers:{
+                        token: this.token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(message),
+                }).then(res=>{
+                    if(res.status === 200)
+                        this.$router.go({path:'/'})
+                })
+            }else{
+                this.none = true;
             }
-            fetch(`/api/v1.0/activity/post/`,{
-                method: "POST",
-                headers:{
-                    "token": this.token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(message),
-            })
         }
     },
 }
@@ -156,6 +165,11 @@ input:focus {
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;
+}
+.input-none{
+  font-size:10px;
+  color: #878787;
+  margin-top: 10px;
 }
 .no{
     left: 42px;
