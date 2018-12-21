@@ -37,11 +37,13 @@ export default {
   mounted() {
     if(this.page == 0){ //所有可以pick
       this.fetchPickable();
-    } else if (this.page == 1){//我发起的activity
+    } else {
       if(!this.login){
         this.landing = true;
-      }else{
+      } else if(this.page == 'post'){//我发起的activity
         this.fetchPost();
+      } else if(this.page == 'pick'){
+        this.fetchPick();
       }
     }
   },
@@ -78,7 +80,35 @@ export default {
     },
     fetchPost(){
       const stuNum = cookie.getCookie('stunum');
-      fetch(`/api/v1.0/user/${stuNum}/post-activities/list/?page=${this.pageNum}`, {
+      let page = 1;
+      if(this.pageNum){
+        page = this.pageNum;
+      }
+      fetch(`/api/v1.0/user/${stuNum}/post-activities/list/?page=${page}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type":"application/json",
+          token: this.token
+        }
+      }).then(res => {
+        if (res.ok){
+          return res.json()
+        }
+      }).then(res => {
+        this.activityList = res.activityList;
+        this.hasNext = res.hasNext;
+        this.pageMax = res.pageMax;
+        this.pageNum = res.pageNum;
+        this.rowsNum = res.rowsNum;
+      })
+    },
+    fetchPick(){
+      let page = 1;
+      if(this.pageNum){
+        page = this.pageNum;
+      }
+      const stuNum = cookie.getCookie('stunum');
+      fetch(`/api/v1.0/user/${stuNum}/pick-activities/list/?page=${page}`, {
         method: 'GET',
         headers: {
           "Content-Type":"application/json",
@@ -97,20 +127,27 @@ export default {
       })
     },
     add(){
-      this.$router.push('/new')
+      if(!this.login){
+        this.landing = true;
+      } else {
+        this.$router.push('/new')
+      }
     }
   },
   watch: {
     '$route': function(){
       this.landing = cookie.getCookie('landing') == 'true'; //更新landing状态
       //重新获取数据
+      const page = this.$route.path.split('/')[2];
       if(this.page == 0){ //所有可以pick
         this.fetchPickable();
-      } else if (this.page == 1){//我发起的activity
+      } else {
         if(!this.login){
           this.landing = true;
-        }else{
+        } else if(page == 'post'){//我发起的activity
           this.fetchPost();
+        } else if(page == 'pick'){
+          this.fetchPick();
         }
       }
     },

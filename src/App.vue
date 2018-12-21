@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <!-- <keep-alive> -->
       <router-view/>
-    </keep-alive>
+    <!-- </keep-alive> -->
     <Tab />
   </div>
 </template>
@@ -38,6 +38,7 @@ body{
 #nav a {
   font-weight: bold;
   color: black;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {

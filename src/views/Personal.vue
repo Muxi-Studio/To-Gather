@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-    <Activities page="1" />
+    <Activities :page="page" />
   </div>
 </template>
 <script>
@@ -11,6 +11,14 @@ export default {
   name: 'personal',
   components: {
     Activities,
+  },
+  data(){
+    return{
+      page: 'post'
+    }
+  },
+  mounted(){
+    this.page = this.$route.params.page;
   }
 }
 </script>
