@@ -87,7 +87,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .new{
     width:87%;
     padding: 16px 7px;

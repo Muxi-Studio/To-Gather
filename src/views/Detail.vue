@@ -177,7 +177,10 @@
     }
 </script>
 
-<style>
+<style scoped>
+.detail{
+    height: 100vh;
+}
 .detailCard{
     width:87%;
     padding: 16px 7px;
