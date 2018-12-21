@@ -4,7 +4,7 @@
             {{WrongMessage}}
     </div>
     <div class="datilCard" v-if="!success">
-        <img class="prev" @click='last' src="../assets/back.png" />
+        <img class="last" @click='prev' src="../assets/back.png" />
         <img class="next" @click='next' src="../assets/next.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
