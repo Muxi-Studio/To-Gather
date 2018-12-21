@@ -43,7 +43,7 @@ const router = new Router({
       component: Pass
     },
     {
-      path: '/personal',
+      path: '/personal/:page',
       name: 'personal',
       component: () => import(/* webpackChunkName: "about" */ './views/Personal.vue')
     }
