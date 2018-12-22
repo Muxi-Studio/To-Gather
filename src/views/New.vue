@@ -62,9 +62,9 @@ export default {
         },
         alter(){
             if(this.date != '' && this.time != '' && this.location != '' && this.event != '' && this.qq != '' && this.tel !='' && this.question !=''){
-                this.year = this.date.split("-")[0];
-                this.month = this.date.split("-")[1];
-                this.day = this.date.split("-")[2];
+                this.year = parseInt(this.date.split("-")[0]);
+                this.month = parseInt(this.date.split("-")[1]);
+                this.day = parseInt(this.date.split("-")[2]);
                 var message = {
                     "year": this.year,
                     "month": this.month,
@@ -85,7 +85,7 @@ export default {
                     body: JSON.stringify(message),
                 }).then(res=>{
                     if(res.status === 200)
-                        this.$router.go({path:'/'})
+                        this.$router.go(-1)
                 })
             }else{
                 this.none = true;
