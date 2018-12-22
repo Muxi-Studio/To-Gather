@@ -3,6 +3,7 @@
     <div class="login-wrapper">
       <div class="login-container">
         <div class="login-title">身份信息核验</div>
+        <img src='../assets/close.png' class="login-close" @click="close()" />
         <div class="inp-container" v-bind:class="{focus: focusName}">
           <input class="login-inp" placeholder="Name_姓名" @focus="handleFocus(0)" @blur="handleNotFocus(0)" v-model="username"/>
           <img class="login-icon" v-bind:src="[focusName ? nameIconfocus: nameIcon]" />
@@ -27,6 +28,7 @@
 import cookie from "../cookie";
 export default {
   name: 'Login',
+  inject: ['reload'],
   data(){
     return{
       nameIcon: require('../assets/icon_login_name1@3x.png'),
@@ -82,6 +84,14 @@ export default {
         this.none = true;
       }
 
+    },
+    close(){
+      cookie.setCookie('landing', false);
+      if(this.$route.path.split('/')[1] != ''){
+        this.$router.push('/');
+      } else {
+        this.reload();
+      }
     }
   }
 
@@ -114,8 +124,15 @@ export default {
   padding: 16px;
   box-sizing: border-box;  
 }
+.login-close{
+    width: 18px;
+    height: 20px;
+    position: absolute;
+    right: 10%;
+}
 .login-title{
   font-size:18px;
+  display: inline-block;
 }
 .login-inp{
   width:264px;

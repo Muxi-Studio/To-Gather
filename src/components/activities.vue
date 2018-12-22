@@ -1,8 +1,17 @@
 <template>
-  <div class="activities">
+  <div class="activities" ref="actBox">
     <login v-if="landing"/>
-    <div class="act-item" v-on:click="checklogin(activity.activityID)" v-for = "activity in activityList" :key="activity.id">
-      <div class="act-time">{{activity.datetime}}</div>
+    <div class="act-item" 
+      v-on:click="checklogin(activity.activityID)"  
+      v-for = "activity in activityList" 
+      :key="activity.id" 
+      :class="{itemgrey: activity.statu == 2 || activity.close }" 
+    >
+      <div class="act-time" :class="{actpass: activity.statu == 1}">
+        <span v-if="page === 'pick'">{{statuList[activity.statu]}} - </span>
+          {{activity.datetime}}
+      </div>
+      <div v-if="activity.hasMessage" class="reddot"></div>
       <div class="act-event">{{activity.event}}</div>
     </div>
     <div class="act-none" v-if="!rowsNum">没有更多内容</div>
@@ -24,6 +33,7 @@ export default {
   },
   data(){
     return{
+      statuList: ['Waiting', 'Successful', 'Fail'],
       activityList: [],
       hasNext: false,
       pageMax: 1,
@@ -31,36 +41,95 @@ export default {
       rowsNum: 0,
       token: cookie.getCookie('token'),
       landing: cookie.getCookie('landing') == 'true',
-      login: cookie.getCookie('login') == 'true'
+      login: cookie.getCookie('login') == 'true',
     }
   },
   mounted() {
     if(this.page == 0){ //所有可以pick
-      this.fetchPickable();
+      this.fetchPickable(1);
     } else {
       if(!this.login){
         this.landing = true;
-      } else if(this.page == 'post'){//我发起的activity
-        this.fetchPost();
-      } else if(this.page == 'pick'){
-        this.fetchPick();
+      } else if(this.$route.path.split('/')[2] == 'post'){//我发起的activity
+        this.fetchPost(1);
+      } else if(this.$route.path.split('/')[2] == 'pick'){
+        this.fetchPick(1);
       }
     }
+    this.box = this.$refs.actBox;
+    this.box.addEventListener('scroll',()=>{
+      const divHeight = this.box.scrollHeight;
+      const scrollTop = this.box.scrollTop;
+      const barHeight = this.box.offsetHeight;
+      if(scrollTop + barHeight === divHeight && this.hasNext){
+        // console.log('!');
+        this.pageNum++;
+        if(this.page == 0){ //所有可以pick
+          this.fetchPickable(1);
+        } else {
+          if(!this.login){
+            this.landing = true;
+          } else if(this.$route.path.split('/')[2] == 'post'){//我发起的activity
+            this.fetchPost(1);
+          } else if(this.$route.path.split('/')[2] == 'pick'){
+            this.fetchPick(1);
+          }
+        }
+      }
+      
+    });
   },
   methods:{
     checklogin(id){
+      const el = this.activityList.filter((el)=>{
+        return el.activityID == id;
+      })[0];
       if(!this.login){
         this.landing = true;
       } else {
-        this.$router.push({
-          name: 'actionDetail',
-          params:{
-            aid: id
+        if(this.page == '0'){
+          this.$router.push({
+            name: 'actionDetail',
+            params:{
+              aid: id
+            }
+          });
+        }else if (this.page == 'post' ){
+          if(el.hasMessage){
+            this.$router.push({
+              name: 'messageReply',
+              params:{
+                aid: id
+              }
+            });
+          }else{
+            this.$router.push({
+              name: 'actionDetail',
+              params:{
+                aid: id
+              }
+            });
           }
-        });
+        }else {
+          if(el.statu == 1){
+            this.$router.push({
+              name: 'passDetail',
+              params:{
+                aid: id
+              }
+            });
+          }else{
+            this.$router.push({
+              name: 'actionDetail',
+              params:{
+                aid: id
+              }
+            });
+          }
+        }
       }
     },
-    fetchPickable(){
+    fetchPickable(flag){
       fetch(`/api/v1.0/activity/pickable/list/?page=${this.pageNum}`, {
         method: 'GET',
         headers: {
@@ -71,14 +140,18 @@ export default {
           return res.json()
         }
       }).then(res => {
-        this.activityList = res.activityList;
+        if(flag){
+          this.activityList = this.activityList.concat(res.activityList);
+        }else{
+          this.activityList = res.activityList;
+        }
         this.hasNext = res.hasNext;
         this.pageMax = res.pageMax;
         this.pageNum = res.pageNum;
         this.rowsNum = res.rowsNum;
       })
     },
-    fetchPost(){
+    fetchPost(flag){
       const stuNum = cookie.getCookie('stunum');
       let page = 1;
       if(this.pageNum){
@@ -95,14 +168,18 @@ export default {
           return res.json()
         }
       }).then(res => {
-        this.activityList = res.activityList;
+        if(flag){
+          this.activityList = this.activityList.concat(res.activityList);
+        }else{
+          this.activityList = res.activityList;
+        }
         this.hasNext = res.hasNext;
         this.pageMax = res.pageMax;
         this.pageNum = res.pageNum;
         this.rowsNum = res.rowsNum;
       })
     },
-    fetchPick(){
+    fetchPick(flag){
       let page = 1;
       if(this.pageNum){
         page = this.pageNum;
@@ -119,7 +196,11 @@ export default {
           return res.json()
         }
       }).then(res => {
-        this.activityList = res.activityList;
+        if(flag){
+          this.activityList = this.activityList.concat(res.activityList);
+        }else{
+          this.activityList = res.activityList;
+        }
         this.hasNext = res.hasNext;
         this.pageMax = res.pageMax;
         this.pageNum = res.pageNum;
@@ -132,7 +213,7 @@ export default {
       } else {
         this.$router.push('/new')
       }
-    }
+    },
   },
   watch: {
     '$route': function(){
@@ -140,20 +221,19 @@ export default {
       //重新获取数据
       const page = this.$route.path.split('/')[2];
       if(this.page == 0){ //所有可以pick
-        this.fetchPickable();
+        this.fetchPickable(0);
       } else {
+        this.page = page;
+        // console.log(this.page);
         if(!this.login){
           this.landing = true;
         } else if(page == 'post'){//我发起的activity
-          this.fetchPost();
+          this.fetchPost(0);
         } else if(page == 'pick'){
-          this.fetchPick();
+          this.fetchPick(0);
         }
       }
     },
-    'landing': function(){
-      cookie.setCookie('landing',this.landing);
-    }
   },
 }
 </script>
@@ -173,6 +253,7 @@ export default {
   padding: 20px;
   border-radius: 3px;
   margin-bottom: 16px;
+  position: relative;
 }
 .act-time{
   font-size:14px;
@@ -202,6 +283,20 @@ export default {
   font-size:36px;
   line-height: 56px;
   text-align: center;
-
+}
+.itemgrey{
+  opacity: 0.75;
+}
+.actpass{
+  color: #6200EE;
+}
+.reddot{
+  background: #FF001F;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute; 
+  top: -7.5px;
+  right: -7.5px;
 }
 </style>
