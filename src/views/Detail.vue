@@ -127,7 +127,6 @@
                     },
                     body:JSON.stringify(answer)
                 }).then(res => {
-                    console.log(res.status)
                     if (res.status === 200) {
                         this.OK= false;
                     }
@@ -149,7 +148,7 @@
                         this.OK = false,
                         this.WrongMessage = "活动已删除"
                     }
-                    else if(res.status === 407){
+                    else if(res.status === 410){
                         this.success = true,
                         this.OK = false,
                         this.WrongMessage = "不可以pick你自己哟"
