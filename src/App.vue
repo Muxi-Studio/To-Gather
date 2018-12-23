@@ -45,8 +45,8 @@ body{
   -moz-osx-font-smoothing: grayscale;
   color: black;
   background-color: #081837;
-  height: 100vh;
   width: 100%;
+  min-height: 700px;
 }
 #nav {
   padding: 30px;

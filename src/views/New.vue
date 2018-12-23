@@ -123,7 +123,7 @@ export default {
 .new{
     width:87%;
     padding: 16px 7px;
-    min-height: calc(100vh - 120px);
+    min-height: 540px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
     margin: 0 auto;

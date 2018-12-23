@@ -202,11 +202,12 @@
 <style scoped>
 .detail{
     height: 100vh;
+    width: 100vw;
 }
 .detailCard{
-    width:87%;
+    width: 87vw;
     padding: 16px 7px;
-    min-height: calc(100vh - 120px);
+    min-height: 540px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
     margin: 0 auto;
@@ -278,7 +279,7 @@
     opacity: 0.4;
 }
 .reply{
-    width:91%;
+    width:91vw;
     min-height:252px;
     background: #FFFFFF;
     border:1px solid rgba(0,0,0,0.12);
@@ -317,7 +318,7 @@
     width: 96px;
     height: 36px;
     margin-top: 39px;
-    margin-left: 33%;
+    margin-left: 29vw;
     text-align: center;
     bottom: 18px;
     font-size: 14px;
