@@ -5,7 +5,7 @@
             {{WrongMessage}}
         </div>
         <div class="detailCard" v-if="!success">
-            <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
+            <img class="back" @click='ret' src="https://static.muxixyz.com/back.png" />
             <div class="actionTime aciton-detail">
                 <span>Time/</span>
                 <span class="left">{{date}}</span>
@@ -43,7 +43,7 @@
                 <span class="left">{{question}}</span>
             </div>
             <div>
-                <button class="no button" @click='prev'>NO:(</button>
+                <button class="no button" @click='ret'>NO:(</button>
                 <button class="yes button" @click='alter'>OK:)</button>
             </div>
         </div>
@@ -98,8 +98,12 @@
             this.getDetail(this.aid);
         },
         methods:{
-            prev(){
-                this.$router.go(-1)
+            ret(){
+                let path = '/'
+                if(this.$route.params.path){
+                    path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+                }
+                this.$router.push(path);
             },
             alter(){
                 if(this.pass){
@@ -129,6 +133,7 @@
                 }).then(res => {
                     if (res.status === 200) {
                         this.OK= false;
+                        this.$router.push({ name: 'personal', params: { page: 'pick' }});
                     }
                     else if(res.status === 401){
                         this.$router.push({path:'/'})
