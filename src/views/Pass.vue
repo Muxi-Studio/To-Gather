@@ -169,7 +169,7 @@
     text-align: center;
     position: absolute;
     bottom: 18px;
-    left: 3%;
+    left: 35%;
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;

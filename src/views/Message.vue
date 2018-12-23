@@ -4,7 +4,7 @@
             {{WrongMessage}}
     </div>
     <div class="datilCard" v-if="!success">
-        <img class="last" @click='prev' src="https://static.muxixyz.com/back.png" />
+        <img class="last" @click='ret' src="https://static.muxixyz.com/back.png" />
         <img class="next" @click='next' src="https://static.muxixyz.com/next.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
@@ -26,7 +26,7 @@
             <span>Reply/</span>
             <span class="left">{{answer}}</span>
         </div>
-        <button class="no button" >NO:(</button>
+        <button class="no button" @click='ret' >NO:(</button>
         <button class="yes button" @click='pass'>OK:)</button>
     </div>
 </div>
@@ -63,8 +63,12 @@
             this.getReplyList(this.aid)
         },
         methods:{
-            prev(){
-                this.$router.go(-1)
+            ret(){
+                let path = '/'
+                if(this.$route.params.path){
+                    path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+                }
+                this.$router.push(path);
             },
             next(){
                 if(this.position === this.position + 1);
