@@ -3,7 +3,7 @@
         <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
         <div class="content">
             <div class="new-date">
-                <el-date-picker 
+                <!-- <el-date-picker 
                     v-model="date" 
                     type="date" 
                     @change="formatTime" 
@@ -11,7 +11,16 @@
                     placeholder="Date_日期" 
                     style="width:94%;" 
                     :picker-options="pickerOptions1">
-                </el-date-picker>
+                </el-date-picker> -->
+                <Datepicker 
+                    v-model="date" 
+                    :disabledDates="disabledDates"
+                    format="yyyy-MM-dd" 
+                    placeholder="Date_日期" 
+                    input-class="font margin"
+                    calendar-class="canlendar"
+                >
+                </Datepicker>
             </div>
             <input placeholder="Time_时间" v-model="time" class="new-time font margin" />
             <input placeholder="Event_事件" v-model="event" class="new-event font margin" />
@@ -30,6 +39,8 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker';
+
 import Cookie from '.././cookie.js'
 export default {
     name: 'newActivity',
@@ -50,10 +61,18 @@ export default {
             event:"",
             qq:"",
             tel:"",
-            question:""
+            question:"",
+            disabledDates: {
+                to: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), // Disable all dates up to specific date
+            }
+
         }
     },
+    components:{
+        Datepicker
+    },
     mounted() {
+        console.log(this.disabledDates);
         this.token = Cookie.getCookie('token')
     },
     methods:{
@@ -61,10 +80,13 @@ export default {
             this.$router.go(-1)
         },
         alter(){
-            if(this.date != '' && this.time != '' && this.location != '' && this.event != '' && this.qq != '' && this.tel !='' && this.question !=''){
-                this.year = parseInt(this.date.split("-")[0]);
-                this.month = parseInt(this.date.split("-")[1]);
-                this.day = parseInt(this.date.split("-")[2]);
+            // console.log(this.date.getFullYear());
+            
+
+            if(this.date && this.time != '' && this.location != '' && this.event != '' && this.qq != '' && this.tel !='' && this.question !=''){
+                this.year = parseInt(this.date.getFullYear());
+                this.month = parseInt(this.date.getMonth()) + 1;
+                this.day = parseInt(this.date.getDate());
                 var message = {
                     "year": this.year,
                     "month": this.month,
@@ -95,7 +117,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+.cell.selected {
+    background-color:#E8E0FB !important;
+}
 .new{
     width:87%;
     padding: 16px 7px;
@@ -109,7 +134,7 @@ export default {
     background-color: white;
     border: 2px; 
 }
-.new-date /deep/ .el-input__inner{
+/* .new-date /deep/ .el-input__inner{
         width:96%;
         margin-left: 5px;
         height: 40px;
@@ -122,7 +147,7 @@ export default {
 .new-date /deep/ .el-input__inner:focus{
     border-bottom: 2px solid #6200EE;
 
-}
+} */
 .back{
     width: 34px;
     height: 36px;

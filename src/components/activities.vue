@@ -14,7 +14,7 @@
       <div v-if="activity.hasMessage" class="reddot"></div>
       <div class="act-event">{{activity.event}}</div>
     </div>
-    <div class="act-none" v-if="!rowsNum">没有更多内容</div>
+    <div class="act-none" v-if="!rowsNum">这里空空如也，快去POST或PICK一个活动吧～</div>
     <div class="add-act" v-on:click="add" >+</div>
   </div>
 </template>
@@ -270,6 +270,7 @@ export default {
   text-align: center;
   color: #FFFFFFcc;
   font-size: 20px;
+  padding: 0 20px;
 }
 .add-act{
   width:56px;
