@@ -1,3 +1,4 @@
+
 module.exports = {
     baseUrl: '/',
     devServer: {
@@ -10,6 +11,6 @@ module.exports = {
                   '^/api': '/api'
                 }
             }
-        }
+        },
     }
 }

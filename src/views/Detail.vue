@@ -5,7 +5,7 @@
             {{WrongMessage}}
         </div>
         <div class="detailCard" v-if="!success">
-            <img class="back" @click='prev' src="../assets/back.png" />
+            <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
             <div class="actionTime aciton-detail">
                 <span>Time/</span>
                 <span class="left">{{date}}</span>
@@ -20,7 +20,7 @@
                 <span class="left">{{event}}</span>
             </div>
             <div class="personalMessage" v-if="!pass">
-                <img class="wrong" src="../assets/error.gif" />
+                <img class="wrong" src="https://static.muxixyz.com/error.gif" />
                 <p class="tip">*error 信息受损 具体联系方式待双方确认后显示</p>
             </div>
             <div v-if="pass">
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="reply" v-if="OK">
-        <img src='../assets/close.png' class="close" @click='close'/>
+        <img src='https://static.muxixyz.com/close.png' class="close" @click='close'/>
         <div class="wait">等待对方验证</div>
         <div class="replyOther">
             <input v-model="answer" class="inputReply" placeholder="Reply_回复对方" />

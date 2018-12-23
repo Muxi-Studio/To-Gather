@@ -1,7 +1,7 @@
 <template>
 <div class="detail">
     <div class="detailCard">
-        <img class="back" @click='prev' src="../assets/back.png" />
+        <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
             <span class="left">{{date}}</span>

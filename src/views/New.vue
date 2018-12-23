@@ -1,6 +1,6 @@
 <template>
     <div class="new">
-        <img class="back" @click='prev' src="../assets/back.png" />
+        <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
         <div class="content">
             <div class="new-date">
                 <el-date-picker 

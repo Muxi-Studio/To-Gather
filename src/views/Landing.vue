@@ -4,7 +4,7 @@
       <div v-if="loginFail" class="failMessage">{{failMessage}}
           <div class="retbut" @click="ret()">返回</div>
       </div>
-      <img src="../assets/loading.png" />
+      <img src="https://static.muxixyz.com/loading.png" />
       <div class="landing-text">正在尝试登陆</div>
       <div class="landing-text">99%</div>
     </div>
@@ -74,7 +74,7 @@ img{
   margin-top: 50%;
 }
 .landing{
-  background: center / cover no-repeat url("../assets/bg.png");
+  background: center / cover no-repeat url("https://static.muxixyz.com/bg.png");
   height: 100vh;
   text-align: center;
 }

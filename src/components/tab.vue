@@ -2,7 +2,7 @@
   <div class="tab">
     <div class="mask" v-if="switchClick"></div>
     <router-link to="/" class="tab-item">
-      <img class="tab-icon" src="../assets/tab_1.png" />
+      <img class="tab-icon" src="https://static.muxixyz.com/tab_1.png" />
       <div class="tab-text">Universe</div>
     </router-link>
     <div class="tab-item" v-on:click="showSwitch()">
@@ -14,7 +14,7 @@
         </div>
         <div class="switch-arrow"></div>
       </div>
-      <img class="tab-icon" src="../assets/tab_2.png" />
+      <img class="tab-icon" src="https://static.muxixyz.com/tab_2.png" />
       <div class="tab-text">U&Me</div>
     </div>
   </div>

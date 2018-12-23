@@ -3,7 +3,7 @@
     <div class="login-wrapper">
       <div class="login-container">
         <div class="login-title">身份信息核验</div>
-        <img src='../assets/close.png' class="login-close" @click="close()" />
+        <img src='https://static.muxixyz.com/close.png' class="login-close" @click="close()" />
         <div class="inp-container" v-bind:class="{focus: focusName}">
           <input class="login-inp" placeholder="Name_姓名" @focus="handleFocus(0)" @blur="handleNotFocus(0)" v-model="username"/>
           <img class="login-icon" v-bind:src="[focusName ? nameIconfocus: nameIcon]" />
@@ -31,10 +31,10 @@ export default {
   inject: ['reload'],
   data(){
     return{
-      nameIcon: require('../assets/name.png'),
-      nameIconfocus: require('../assets/name_focus.png'),
-      idIcon: require("../assets/num.png"),
-      idIconfocus: require('../assets/num_focus.png'),
+      nameIcon: require('https://static.muxixyz.com/name.png'),
+      nameIconfocus: require('https://static.muxixyz.com/name_focus.png'),
+      idIcon: require("https://static.muxixyz.com/num.png"),
+      idIconfocus: require('https://static.muxixyz.com/num_focus.png'),
       focusName: false,
       focusId:false,
       focusPw:false,
