@@ -135,13 +135,14 @@ export default {
   display: inline-block;
 }
 .login-inp{
-  width:264px;
+  width:260px;
   height:30px;
   font-size:16px;
   line-height:30px; 
   margin-top: 20px;
   border: none;
   outline: none;
+  margin-left: 0;
 }
 .inp-container{
   width:288px;
@@ -153,7 +154,6 @@ export default {
 .login-icon{
   width: 24px;
   vertical-align: middle;
-  
 }
 .login-tip{
   font-size:10px;

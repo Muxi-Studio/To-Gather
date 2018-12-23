@@ -1,6 +1,6 @@
 
 module.exports = {
-    baseUrl: '/',
+    baseUrl: process.env.NODE_ENV === 'production' ? 'https://static.muxixyz.com/to-gather/' : '/', 
     devServer: {
         proxy: {
             '/api': {
@@ -12,5 +12,6 @@ module.exports = {
                 }
             }
         },
-    }
+    },
+    filenameHashing: false
 }

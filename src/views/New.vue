@@ -72,7 +72,6 @@ export default {
         Datepicker
     },
     mounted() {
-        console.log(this.disabledDates);
         this.token = Cookie.getCookie('token')
     },
     methods:{
