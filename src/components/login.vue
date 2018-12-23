@@ -115,7 +115,7 @@ export default {
   vertical-align: middle;
 }
 .login-container{
-  width:328px;
+  width: 80vw;
   min-height:252px;
   background: #FFFFFF;
   margin: 0 auto;
@@ -134,7 +134,7 @@ export default {
   display: inline-block;
 }
 .login-inp{
-  width:260px;
+  width: 80%;
   height:30px;
   font-size:16px;
   line-height:30px; 
@@ -144,7 +144,8 @@ export default {
   margin-left: 0;
 }
 .inp-container{
-  width:288px;
+  width: 100%;
+  /* width:288px; */
   border-bottom: 2px solid #878787;
 }
 .focus{
@@ -152,7 +153,8 @@ export default {
 }
 .login-icon{
   width: 24px;
-  vertical-align: middle;
+  margin-top: 25px;
+  float: right;
 }
 .login-tip{
   font-size:10px;
@@ -167,6 +169,7 @@ export default {
   line-height: 36px;
   text-align: center;
   margin: 0 auto;
+  margin-top: 10px;
   color: #6200EE;
 }
 .input-none{

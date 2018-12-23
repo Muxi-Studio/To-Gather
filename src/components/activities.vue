@@ -257,7 +257,7 @@ export default {
 }
 .act-item{
   background: #FFFFFF;
-  width:288px;
+  width: 80vw;
   height:72px;
   margin: 0 auto;
   padding: 20px;
