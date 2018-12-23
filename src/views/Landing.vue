@@ -4,7 +4,7 @@
       <div v-if="loginFail" class="failMessage">{{failMessage}}
           <div class="retbut" @click="ret()">返回</div>
       </div>
-      <img src="../assets/icon_loading_64px@6x.png" />
+      <img src="../assets/loading.png" />
       <div class="landing-text">正在尝试登陆</div>
       <div class="landing-text">99%</div>
     </div>

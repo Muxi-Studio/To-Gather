@@ -31,10 +31,10 @@ export default {
   inject: ['reload'],
   data(){
     return{
-      nameIcon: require('../assets/icon_login_name1@3x.png'),
-      nameIconfocus: require('../assets/icon_login_name@3x.png'),
-      idIcon: require("../assets/icon_login_num1@3x.png"),
-      idIconfocus: require('../assets/icon_login_num@3x.png'),
+      nameIcon: require('../assets/name.png'),
+      nameIconfocus: require('../assets/name_focus.png'),
+      idIcon: require("../assets/num.png"),
+      idIconfocus: require('../assets/num_focus.png'),
       focusName: false,
       focusId:false,
       focusPw:false,
