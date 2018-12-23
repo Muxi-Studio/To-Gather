@@ -125,10 +125,9 @@ export default {
   box-sizing: border-box;  
 }
 .login-close{
-    width: 18px;
-    height: 20px;
-    position: absolute;
-    right: 10%;
+  width: 18px;
+  height: 20px;
+  float: right;
 }
 .login-title{
   font-size:18px;

@@ -1,6 +1,6 @@
 <template>
   <div class="tab">
-    <div class="mask" v-if="switchClick"></div>
+    <div class="mask" v-if="switchClick" @click="showSwitch()"></div>
     <router-link to="/" class="tab-item">
       <img class="tab-icon" src="https://static.muxixyz.com/tab_1.png" />
       <div class="tab-text">Universe</div>
