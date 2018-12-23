@@ -64,7 +64,7 @@
         },
         methods:{
             prev(){
-                this.$router.push({path:'/personal'})
+                this.$router.go(-1)
             },
             next(){
                 if(this.position === this.position + 1);
@@ -151,7 +151,7 @@
                     body: JSON.stringify(message)
                 }).then(res=>{
                     if(res.status === 200){
-                        this.$router.push({path:'/personal'})
+                        this.$router.push({name:'personal', params:{page: 'post'}})
                     }
                 })
             }

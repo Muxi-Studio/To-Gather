@@ -285,7 +285,8 @@ export default {
   text-align: center;
 }
 .itemgrey{
-  opacity: 0.75;
+  /* opacity: 0.75; */
+  background: #c5c5c5;
 }
 .actpass{
   color: #6200EE;

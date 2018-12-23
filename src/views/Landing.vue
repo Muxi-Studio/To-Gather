@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="landing" >
+      <div v-if="loginFail" class="failMessage">{{failMessage}}
+          <div class="retbut" @click="ret()">返回</div>
+      </div>
       <img src="../assets/icon_loading_64px@6x.png" />
       <div class="landing-text">正在尝试登陆</div>
       <div class="landing-text">99%</div>
@@ -14,14 +17,17 @@ export default {
   name: 'landing',
   data(){
     return{
+      loginFail: false,
+      failMessage: '学号或密码错误'
     }
   },
   mounted(){
-    var data = {
+    const data = {
       "std_num": cookie.getCookie('stunum'),
       "password": cookie.getCookie('password'),
       "username": cookie.getCookie('username')
     }
+    // console.log(data);
     fetch(`/api/v1.0/auth/login/`, {
         method: 'POST',
         headers: {
@@ -31,6 +37,13 @@ export default {
       }).then(res => {
         if (res.ok){
           return res.json()
+        }else{
+          if(res.status == 401){
+            this.loginFail = true;
+          }else{
+            this.failMessage = '登录失败'
+            this.loginFail = true;
+          }
         }
       }).then(res => {
         // localStorage.setItem('token', res.token);
@@ -38,9 +51,19 @@ export default {
         cookie.setCookie('token', res.token);
         cookie.setCookie('login', true);
         cookie.setCookie('landing', false);
-        const path = this.$route.params.path === '/' ? '/': this.$route.params.path;
-        this.$router.push(path);
+        this.ret();
+      }).catch(err => {
+        console.log(err);
       })
+  },
+  methods:{
+    ret(){
+      let path = '/'
+      if(this.$route.params.path){
+        path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+      }
+      this.$router.push(path);
+    }
   }
 }
 </script>
@@ -61,4 +84,30 @@ img{
   color: #FFFFFF;
 }
 
+.failMessage{
+  width:328px;
+  background: #FFFFFF;
+  margin: 0 auto;
+  border:1px solid rgba(0,0,0,0.12);
+  border-radius: 3px;
+  padding: 40px 0;
+  text-align: center;
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: #6200EE;
+}
+.retbut{
+  width: 96px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  font-size: 14px;
+  border:1px solid rgba(0,0,0,0.12);
+  border-radius: 5px;
+}
 </style>
