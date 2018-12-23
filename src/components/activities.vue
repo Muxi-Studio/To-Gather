@@ -5,7 +5,7 @@
       v-on:click="checklogin(activity.activityID)"  
       v-for = "activity in activityList" 
       :key="activity.id" 
-      :class="{itemgrey: activity.statu == 2 || activity.close }" 
+      :class="{itemgrey: (activity.statu == 2 || activity.close || activity.success) }" 
     >
       <div class="act-time" :class="{actpass: activity.statu == 1}">
         <span v-if="page === 'pick'">{{statuList[activity.statu]}} - </span>
@@ -104,7 +104,7 @@ export default {
             });
           }else{
             this.$router.push({
-              name: 'actionDetail',
+              name: 'passDetail',
               params:{
                 aid: id
               }
@@ -286,7 +286,7 @@ export default {
 }
 .itemgrey{
   /* opacity: 0.75; */
-  background: #c5c5c5;
+  background: #dddddd;
 }
 .actpass{
   color: #6200EE;
