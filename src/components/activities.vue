@@ -91,7 +91,8 @@ export default {
           this.$router.push({
             name: 'actionDetail',
             params:{
-              aid: id
+              aid: id,
+              path: this.$route.path
             }
           });
         }else if (this.page == 'post' ){
@@ -99,14 +100,16 @@ export default {
             this.$router.push({
               name: 'messageReply',
               params:{
-                aid: id
+                aid: id,
+                path: this.$route.path
               }
             });
           }else{
             this.$router.push({
               name: 'passDetail',
               params:{
-                aid: id
+                aid: id,
+                path: this.$route.path
               }
             });
           }
@@ -115,14 +118,16 @@ export default {
             this.$router.push({
               name: 'passDetail',
               params:{
-                aid: id
+                aid: id,
+                path: this.$route.path
               }
             });
           }else{
             this.$router.push({
               name: 'actionDetail',
               params:{
-                aid: id
+                aid: id,
+                path: this.$route.path
               }
             });
           }
@@ -211,7 +216,12 @@ export default {
       if(!this.login){
         this.landing = true;
       } else {
-        this.$router.push('/new')
+        this.$router.push({
+          name: 'newActivity',
+          params:{
+            path : this.$route.path
+          }
+        });
       }
     },
   },
