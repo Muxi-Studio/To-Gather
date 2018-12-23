@@ -98,7 +98,6 @@
                 }).then(res =>{
                     this.messageCount = res.messageCount,
                     this.messageList = res.messageList,
-                    console.log(this.messageList)
                     this.getReplyDetail(this.messageList[this.position])
                 })
             },
