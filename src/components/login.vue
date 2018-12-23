@@ -1,5 +1,5 @@
 <template>
-  <div class="login-mask">
+  <div class="login-mask" @click="close()">
     <div class="login-wrapper">
       <div class="login-container">
         <div class="login-title">身份信息核验</div>
