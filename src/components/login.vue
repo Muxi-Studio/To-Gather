@@ -31,10 +31,10 @@ export default {
   inject: ['reload'],
   data(){
     return{
-      nameIcon: require('https://static.muxixyz.com/name.png'),
-      nameIconfocus: require('https://static.muxixyz.com/name_focus.png'),
-      idIcon: require("https://static.muxixyz.com/num.png"),
-      idIconfocus: require('https://static.muxixyz.com/num_focus.png'),
+      nameIcon: "https://static.muxixyz.com/name.png",
+      nameIconfocus: "https://static.muxixyz.com/name_focus.png",
+      idIcon: "https://static.muxixyz.com/num.png",
+      idIconfocus: "https://static.muxixyz.com/num_focus.png",
       focusName: false,
       focusId:false,
       focusPw:false,

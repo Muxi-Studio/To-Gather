@@ -52,9 +52,10 @@ export default {
         cookie.setCookie('login', true);
         cookie.setCookie('landing', false);
         this.ret();
-      }).catch(err => {
-        console.log(err);
       })
+      // .catch(err => {
+      
+      // })
   },
   methods:{
     ret(){
