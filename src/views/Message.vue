@@ -1,7 +1,7 @@
 <template>
 <div class="message">
-    <div class="wrongPage" v-if="success">
-            {{WrongMessage}}
+    <div class="wrongPage" v-if="success" @click='closeWrong'>
+        {{WrongMessage}}
     </div>
     <div class="datilCard" v-if="!success">
         <img class="last" @click='ret' src="https://static.muxixyz.com/back.png" />
@@ -69,6 +69,12 @@
                     path = this.$route.params.path === '/' ? '/': this.$route.params.path;
                 }
                 this.$router.push(path);
+            },
+            closeWrong(){
+                if(this.success == true){
+                    this.success = false;
+                    this.WrongMessage = ""
+                }
             },
             next(){
                 if(this.position === this.position + 1);
