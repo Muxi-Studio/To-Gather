@@ -1,7 +1,7 @@
 <template>
 <div class="detail">
     <div class="detailCard">
-        <img class="back" @click='prev' src="https://static.muxixyz.com/back.png" />
+        <img class="back" @click='ret' src="https://static.muxixyz.com/back.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
             <span class="left">{{date}}</span>
@@ -33,7 +33,7 @@
             <span class="left">{{question}}</span>
         </div>
         <div>
-            <button class="yes button" @click='prev'>OK:)</button>
+            <button class="yes button" @click='ret'>OK:)</button>
         </div>
     </div>
 </div>
@@ -69,8 +69,12 @@
             this.getDetail(this.aid);
         },
         methods:{
-            prev(){
-                this.$router.go(-1)
+            ret(){
+                let path = '/'
+                if(this.$route.params.path){
+                    path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+                }
+                this.$router.push(path);
             },
             getDetail(aid){
                 fetch(`/api/v1.0/activity/${aid}/`, {
