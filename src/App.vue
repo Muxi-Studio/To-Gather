@@ -46,7 +46,9 @@ body{
   color: black;
   background-color: #081837;
   width: 100%;
-  min-height: 700px;
+  /* min-height: 700px;  */
+  height: 100%;
+  padding-bottom: 50px;
 }
 #nav {
   padding: 30px;

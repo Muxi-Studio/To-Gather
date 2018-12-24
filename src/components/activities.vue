@@ -278,7 +278,7 @@ export default {
 }
 .act-none{
   text-align: center;
-  color: #FFFFFFcc;
+  color: #FFFFFF;
   font-size: 20px;
   padding: 0 20px;
 }

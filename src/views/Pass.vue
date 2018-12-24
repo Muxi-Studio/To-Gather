@@ -1,6 +1,6 @@
 <template>
 <div class="detail">
-    <div class="detailCard">
+    <div class="pick-detail-card">
         <img class="back" @click='ret' src="https://static.muxixyz.com/back.png" />
         <div class="actionTime aciton-detail">
             <span>Time/</span>
@@ -32,7 +32,7 @@
             <span>Adds/</span>
             <span class="left">{{question}}</span>
         </div>
-        <div>
+        <div class="pass-ok-btn">
             <button class="yes button" @click='ret'>OK:)</button>
         </div>
     </div>
@@ -123,18 +123,18 @@
     width: 34px;
     height: 36px;
 }
-.detailCard{
+.pick-detail-card{
     width:87%;
     padding: 16px 7px;
-    min-height: calc(100vh - 120px);
+    min-height: 400px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
     margin: 0 auto;
     top: 18px;
     position: relative;
-    height: 100px;
     background-color: white;
-    border: 2px; 
+    border: 2px;
+    z-index: 100;
 }
 .aciton-detail{
     font-size: 14px;
@@ -161,19 +161,22 @@
     margin-left: 19px;
 }
 .adds{
-    margin-left: 19px;
-    margin-top: 26px;
+    margin: 26px 19px 19px 19px;
     color: #6200EE;
     font-size: 14px;
     font-weight: bold;
+}
+.pass-ok-btn {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 .button{
     width: 96px;
     height: 36px;
     text-align: center;
-    position: absolute;
-    bottom: 18px;
-    left: 35%;
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;

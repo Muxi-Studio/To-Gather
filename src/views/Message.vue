@@ -26,8 +26,10 @@
             <span>Reply/</span>
             <span class="left">{{answer}}</span>
         </div>
-        <button class="no button" @click='ret' >NO:(</button>
-        <button class="yes button" @click='pass'>OK:)</button>
+        <div class="message-btns">
+            <button class="no button" @click='ret' >NO:(</button>
+            <button class="yes button" @click='pass'>OK:)</button>
+        </div>
     </div>
 </div>
 </template>
@@ -224,23 +226,28 @@
     font-size: 14px;
     font-weight: bold;
 }
+.message-btns {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 19px;
+    align-items: center;
+    margin-top: 19px;
+}
 .button{
     width: 96px;
     height: 36px;
     text-align: center;
-    position: absolute;
-    bottom: 18px;
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;
 }
 .no{
-    left: 42px;
     background-color: #7286FA;
     color:white;
 }
 .yes{
-    right: 42px;
     background-color: #E8E0FB;
     color: #3B00DD;
 }

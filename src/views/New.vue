@@ -31,7 +31,7 @@
             <input placeholder="Adds_还想说点啥" v-model="question" class="new-adds font" />
             <div class="input-none" v-if="none">*tips 任何一项不能为空！</div>
         </div>
-        <div>
+        <div class="new-card-btns">
             <button class="no button" @click='prev'>NO:(</button>
             <button class="yes button" @click='alter'>OK:)</button>
         </div>
@@ -127,15 +127,16 @@ export default {
 .new{
     width:87%;
     padding: 16px 7px;
-    min-height: 540px;
+    min-height: 500px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
     margin: 0 auto;
     top: 18px;
     position: relative;
-    height: 100px;
+    /* height: 100px; */
     background-color: white;
     border: 2px; 
+    z-index: 100;
 }
 /* .new-date /deep/ .el-input__inner{
         width:96%;
@@ -188,11 +189,18 @@ input:focus {
     width: 96px;
     height: 36px;
     text-align: center;
-    position: absolute;
-    bottom: 18px;
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;
+}
+.new-card-btns {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 19px;
+    align-items: center;
+    margin-top: 19px;
 }
 .input-none{
   font-size:10px;
@@ -200,7 +208,6 @@ input:focus {
   margin-top: 10px;
 }
 .no{
-    left: 42px;
     background-color: #7286FA;
     color:white;
 }

@@ -8,16 +8,16 @@
             <img class="back" @click='ret' src="https://static.muxixyz.com/back.png" />
             <div class="actionTime aciton-detail">
                 <span>Time/</span>
-                <span class="left">{{date}}</span>
-                <span class="left">{{time}}</span>
+                <span class="word-left">{{date}}</span>
+                <span class="word-left">{{time}}</span>
             </div>
             <div class="actionLocation aciton-detail">
                 <span>Location/</span>
-                <span class="left">{{location}}</span>
+                <span class="word-left">{{location}}</span>
             </div>
             <div class="event aciton-detail">
                 <span>Event/</span>
-                <span class="left">{{event}}</span>
+                <span class="word-left">{{event}}</span>
             </div>
             <div class="personalMessage" v-if="!pass">
                 <img class="wrong" src="https://static.muxixyz.com/error.gif" />
@@ -27,22 +27,22 @@
                 <p class="tips">*tips 请妥善保管以下信息 with Love&Peace</p>
                 <div class="place aciton-detail">
                     <span>Place/</span>
-                    <span class="left">{{location}}</span>
+                    <span class="word-left">{{location}}</span>
                 </div>
                 <div class="qq aciton-detail">
                     <span>QQ/</span>
-                    <span class="left">{{qq}}</span>
+                    <span class="word-left">{{qq}}</span>
                 </div>
                 <div class="tel aciton-detail">
                     <span>Tel/</span>
-                    <span class="left">{{tel}}</span>
+                    <span class="word-left">{{tel}}</span>
                 </div>
             </div>
             <div class="adds">
                 <span>Adds/</span>
-                <span class="left">{{question}}</span>
+                <span class="word-left">{{question}}</span>
             </div>
-            <div>
+            <div class="card-btns">
                 <button class="no button" @click='ret'>NO:(</button>
                 <button class="yes button" @click='alter'>OK:)</button>
             </div>
@@ -213,15 +213,16 @@
 .detailCard{
     width: 87vw;
     padding: 16px 7px;
-    min-height: 540px;
+    min-height: 400px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 3px;
     margin: 0 auto;
     top: 18px;
     position: relative;
-    height: 100px;
+    /* height: 100px; */
     background-color: white;
-    border: 2px; 
+    border: 2px;
+    z-index: 100;
 }
 .back{
     width: 34px;
@@ -252,32 +253,34 @@
     margin-left: 19px;
 }
 .adds{
-    margin-left: 19px;
-    margin-top: 26px;
     color: #6200EE;
     font-size: 14px;
     font-weight: bold;
+    margin: 26px 19px 19px 19px;
+}
+.card-btns {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 19px;
+    align-items: center;
 }
 .button{
     width: 96px;
     height: 36px;
-    text-align: center;
-    position: absolute;
-    bottom: 18px;
     font-size: 14px;
     border:1px solid rgba(0,0,0,0.12);
     border-radius: 5px;
 }
 .no{
-    left: 42px;
     background-color: #7286FA;
     color:white;
 }
-.left{
-    margin-left: 5px;
+.word-left{
+    margin: 0 5px;
 }
 .yes{
-    right: 42px;
     background-color: #E8E0FB;
     color: #3B00DD;
 }
