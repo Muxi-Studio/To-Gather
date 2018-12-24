@@ -1,6 +1,6 @@
 <template>
 <div class="detail">
-    <div :class="changeclass(OK)">
+    <div :class="changeclass(OK)" @click='closeWrong'>
         <div class="wrongPage" v-if="success">
             {{WrongMessage}}
         </div>
@@ -115,6 +115,12 @@
             },
             close(){
                 this.OK = false;
+            },
+            closeWrong(){
+                if(this.success == true){
+                    this.success = false;
+                    this.WrongMessage = ""
+                }
             },
             changeclass(OK){
                 return OK ? 'detail dark': 'detail'

@@ -1,5 +1,5 @@
 <template>
-  <div class="login-mask" @click="close()">
+  <div class="login-mask">
     <div class="login-wrapper">
       <div class="login-container">
         <div class="login-title">身份信息核验</div>
@@ -72,7 +72,6 @@ export default {
         cookie.setCookie('username', this.username);
         cookie.setCookie('stunum', this.stunum);
         cookie.setCookie('password', this.password);
-        // localStorage.landing = false;
         cookie.setCookie('landing', false);
         this.$router.push({
           name: 'landing',
