@@ -76,7 +76,11 @@ export default {
     },
     methods:{
         prev(){
-            this.$router.go(-1)
+            let path = '/'
+                if(this.$route.params.path){
+                    path = this.$route.params.path === '/' ? '/': this.$route.params.path;
+                }
+            this.$router.push(path);
         },
         alter(){
             // console.log(this.date.getFullYear());
